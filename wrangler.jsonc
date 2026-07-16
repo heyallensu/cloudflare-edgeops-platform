@@ -28,6 +28,13 @@
 			"service": "edgeops-dashboard"
 		}
 	],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "edgeops-dashboard-db",
+			"migrations_dir": "migrations"
+		}
+	],
 	"observability": {
 		"enabled": true,
 		"logs": {
