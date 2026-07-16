@@ -6,6 +6,8 @@ node_modules/
 coverage/
 playwright-report/
 test-results/
+*.tsbuildinfo
+next-env.d.ts
 
 # Local environment and Cloudflare configuration
 .env

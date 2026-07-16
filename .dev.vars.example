@@ -1,0 +1,2 @@
+# Local-only values belong in .dev.vars, which is ignored by Git.
+# No secrets are required for the initial local foundation.

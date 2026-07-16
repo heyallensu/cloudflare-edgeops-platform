@@ -4,9 +4,9 @@ EdgeOps Dashboard is a clean-room portfolio reference for operating a small
 platform on Cloudflare Workers, D1, Access, OpenNext, Terraform, and GitHub
 Actions.
 
-The repository is currently at the **documentation gate**. No application has
-been scaffolded, no cloud resources have been created, and no remote GitHub
-repository exists yet.
+The documentation gate is approved and local implementation is underway. The
+application is scaffolded from Cloudflare's official Next.js/OpenNext template.
+No cloud resources or remote GitHub repository have been created yet.
 
 ## Review Documents
 
@@ -17,4 +17,12 @@ repository exists yet.
 - [Publication checklist](docs/publication-checklist.md)
 - [Deploy and rollback runbook](docs/runbooks/deploy-and-rollback.md)
 
-Implementation begins only after the documentation gate is approved.
+## Local foundation
+
+```bash
+npm ci
+npm run dev
+```
+
+Run `npm run verify` before committing. Cloud creation and deployment remain
+separate approval-gated stages.
