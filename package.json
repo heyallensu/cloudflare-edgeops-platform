@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:worker": "opennextjs-cloudflare build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
@@ -17,7 +18,7 @@
     "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts",
     "d1:migrate:local": "wrangler d1 migrations apply edgeops-dashboard-db --local",
     "d1:migrate:remote": "wrangler d1 migrations apply edgeops-dashboard-db --remote",
-    "verify": "npm run cf-typegen && npm run typecheck && npm run lint && npm test && npm run build"
+    "verify": "npm run cf-typegen && npm run typecheck && npm run lint && npm test && npm run build:worker"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.19.9",

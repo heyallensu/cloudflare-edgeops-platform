@@ -35,6 +35,10 @@
 			"migrations_dir": "migrations"
 		}
 	],
+	"vars": {
+		"APP_VERSION": "0.1.0",
+		"APP_ENVIRONMENT": "production"
+	},
 	"observability": {
 		"enabled": true,
 		"logs": {
