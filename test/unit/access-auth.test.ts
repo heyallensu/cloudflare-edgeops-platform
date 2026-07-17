@@ -27,7 +27,7 @@ async function signAccessToken(
 	overrides: { issuer?: string; audience?: string | string[]; expiresAt?: number } = {},
 ) {
 	const now = Math.floor(Date.now() / 1000);
-	return new SignJWT({ sub: "user-123", email: "never-return@example.com" })
+	return new SignJWT({ sub: "user-123", email: "sensitive-claim" })
 		.setProtectedHeader({ alg: "RS256", kid: "test-key" })
 		.setIssuer(overrides.issuer ?? productionConfig.ACCESS_TEAM_DOMAIN)
 		.setAudience(overrides.audience ?? productionConfig.ACCESS_AUD)

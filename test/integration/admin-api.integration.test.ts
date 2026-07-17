@@ -148,9 +148,14 @@ describe("admin API handlers", () => {
 		});
 		const crossOrigin = jsonRequest("/api/admin/deployments", "POST", {});
 		crossOrigin.headers.set("origin", "https://attacker.example");
+		const forgedForwardedOrigin = jsonRequest("/api/admin/deployments", "POST", {});
+		forgedForwardedOrigin.headers.set("origin", "https://attacker.example");
+		forgedForwardedOrigin.headers.set("x-forwarded-host", "attacker.example");
+		forgedForwardedOrigin.headers.set("x-forwarded-proto", "https");
 
 		expect((await handlers.createDeployment(nonJson)).status).toBe(415);
 		expect((await handlers.createDeployment(crossOrigin)).status).toBe(403);
+		expect((await handlers.createDeployment(forgedForwardedOrigin)).status).toBe(403);
 	});
 
 	it("rejects malformed JSON with a stable error response", async () => {
