@@ -6,7 +6,7 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "edgeops-dashboard",
 	"main": ".open-next/worker.js",
-	"compatibility_date": "2026-07-16",
+	"compatibility_date": "2026-07-17",
 	"compatibility_flags": [
 		"nodejs_compat",
 		"global_fetch_strictly_public"
@@ -15,11 +15,8 @@
 		"binding": "ASSETS",
 		"directory": ".open-next/assets"
 	},
-	"images": {
-		// Enable image optimization
-		// see https://opennext.js.org/cloudflare/howtos/image
-		"binding": "IMAGES"
-	},
+	"workers_dev": true,
+	"preview_urls": false,
 	"services": [
 		{
 			// Self-reference service binding, the service name must match the worker name
@@ -32,6 +29,7 @@
 		{
 			"binding": "DB",
 			"database_name": "edgeops-dashboard-db",
+			"database_id": "05e4a215-c611-49f2-b31b-062a1afff5b8",
 			"migrations_dir": "migrations"
 		}
 	],

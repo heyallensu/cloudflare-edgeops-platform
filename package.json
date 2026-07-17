@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
     "test": "vitest run",
+    "test:static": "node --test test/static/*.test.mjs",
     "test:integration": "vitest run test/integration",
     "test:e2e": "playwright test",
     "test:e2e:protected": "playwright test --config playwright.protected.config.ts",
@@ -20,7 +21,7 @@
     "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts",
     "d1:migrate:local": "wrangler d1 migrations apply edgeops-dashboard-db --local",
     "d1:migrate:remote": "wrangler d1 migrations apply edgeops-dashboard-db --remote",
-    "verify": "npm run cf-typegen && npm run typecheck && npm run lint && npm test && npm run build:worker"
+    "verify": "npm run cf-typegen && npm run typecheck && npm run lint && npm test && npm run test:static && npm run build:worker"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.19.9",
@@ -42,7 +43,7 @@
     "tailwindcss": "^4",
     "typescript": "^5.7.4",
     "vitest": "^4.1.10",
-    "wrangler": "^4.111.0"
+    "wrangler": "4.112.0"
   },
   "overrides": {
     "postcss": "8.5.19"

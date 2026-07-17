@@ -1,0 +1,33 @@
+name: Production health
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: edgeops-production-health
+  cancel-in-progress: true
+
+jobs:
+  health:
+    name: Check public production routes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Retry health check three times
+        env:
+          PRODUCTION_URL: ${{ vars.PRODUCTION_URL }}
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            if curl --fail --silent --show-error --max-time 15 "${PRODUCTION_URL}/api/health" >/dev/null \
+              && curl --fail --silent --show-error --max-time 15 "${PRODUCTION_URL}/" >/dev/null; then
+              exit 0
+            fi
+            if [ "${attempt}" -lt 3 ]; then sleep 10; fi
+          done
+          exit 1

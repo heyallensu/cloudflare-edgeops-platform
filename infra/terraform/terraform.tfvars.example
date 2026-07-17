@@ -1,0 +1,6 @@
+# Supply real values with TF_VAR_* environment variables or an untracked
+# terraform.tfvars file. Never commit account metadata or an allowed identity.
+cloudflare_account_id = "00000000000000000000000000000000"
+worker_hostname       = "edgeops-dashboard.example.workers.dev"
+access_allowed_email  = "operator@example.com"
+enable_access         = false
