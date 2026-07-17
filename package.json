@@ -1,5 +1,5 @@
 {
-  "name": "cloudflare-platform-reference",
+  "name": "cloudflare-edgeops-platform",
   "version": "0.1.0",
   "private": true,
   "scripts": {

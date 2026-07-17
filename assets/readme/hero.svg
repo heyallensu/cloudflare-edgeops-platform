@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">EdgeOps — Cloudflare platform operations reference</title>
+  <desc id="desc">A dark operations-control composition showing the EdgeOps title, public and protected request paths, service health, deployments, incidents, Workers, Access, and D1.</desc>
+
+  <rect width="1200" height="420" rx="20" fill="#071017"/>
+  <rect x="1" y="1" width="1198" height="418" rx="19" fill="none" stroke="#344754"/>
+
+  <g stroke="#20303b" stroke-width="1">
+    <path d="M40 74H1160"/>
+    <path d="M730 74V380"/>
+    <path d="M40 336H688"/>
+  </g>
+
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="2">
+    <text x="40" y="45" fill="#73e6d1">CLOUDFLARE PLATFORM ENGINEERING / 001</text>
+    <text x="1160" y="45" fill="#8e9eae" text-anchor="end">CLEAN-ROOM REFERENCE</text>
+  </g>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">
+    <text x="40" y="170" fill="#e8edf2" font-size="82" font-weight="650" letter-spacing="-4">EDGEOPS</text>
+    <text x="44" y="217" fill="#73e6d1" font-size="24" font-weight="600" letter-spacing="5">PLATFORM CONTROL</text>
+    <text x="44" y="270" fill="#b3c0cb" font-size="19">A production-minded reference for service health,</text>
+    <text x="44" y="300" fill="#b3c0cb" font-size="19">release operations, and incident state at the edge.</text>
+  </g>
+
+  <g transform="translate(40 356)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="1.5">
+    <text x="0" y="0" fill="#8e9eae">WORKERS</text>
+    <rect x="86" y="-11" width="4" height="4" fill="#344754"/>
+    <text x="108" y="0" fill="#8e9eae">D1</text>
+    <rect x="145" y="-11" width="4" height="4" fill="#344754"/>
+    <text x="167" y="0" fill="#8e9eae">ACCESS</text>
+    <rect x="247" y="-11" width="4" height="4" fill="#344754"/>
+    <text x="269" y="0" fill="#8e9eae">OPENNEXT</text>
+    <rect x="373" y="-11" width="4" height="4" fill="#344754"/>
+    <text x="395" y="0" fill="#8e9eae">TERRAFORM-READY</text>
+  </g>
+
+  <g transform="translate(770 96)">
+    <text x="0" y="0" fill="#8e9eae" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" letter-spacing="2">REQUEST BOUNDARIES</text>
+
+    <g transform="translate(0 28)">
+      <rect width="390" height="62" fill="#0b1720" stroke="#344754"/>
+      <rect x="0" y="0" width="5" height="62" fill="#73e6d1"/>
+      <text x="24" y="26" fill="#e8edf2" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="16" font-weight="600">PUBLIC READ</text>
+      <text x="24" y="47" fill="#8e9eae" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">/  ·  /api/health</text>
+      <text x="364" y="37" fill="#73e6d1" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="end">OPEN</text>
+    </g>
+
+    <g transform="translate(0 104)">
+      <rect width="390" height="62" fill="#0b1720" stroke="#344754"/>
+      <rect x="0" y="0" width="5" height="62" fill="#ffc15c"/>
+      <text x="24" y="26" fill="#e8edf2" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="16" font-weight="600">PROTECTED WRITE</text>
+      <text x="24" y="47" fill="#8e9eae" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">/admin*  ·  Access JWT</text>
+      <text x="364" y="37" fill="#ffc15c" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="end">VERIFY</text>
+    </g>
+
+    <path d="M195 180V206" stroke="#344754"/>
+    <rect x="52" y="206" width="286" height="48" fill="#101f29" stroke="#73e6d1"/>
+    <text x="195" y="236" fill="#e8edf2" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="1" text-anchor="middle">WORKER  →  D1 CONTROL PLANE</text>
+
+    <g transform="translate(0 278)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+      <g>
+        <text x="0" y="0" fill="#8e9eae" font-size="10" letter-spacing="1">SERVICES</text>
+        <text x="0" y="36" fill="#e8edf2" font-size="30">03</text>
+      </g>
+      <g transform="translate(132 0)">
+        <text x="0" y="0" fill="#8e9eae" font-size="10" letter-spacing="1">DEPLOYMENTS</text>
+        <text x="0" y="36" fill="#73e6d1" font-size="30">03</text>
+      </g>
+      <g transform="translate(286 0)">
+        <text x="0" y="0" fill="#8e9eae" font-size="10" letter-spacing="1">OPEN EVENTS</text>
+        <text x="0" y="36" fill="#ffc15c" font-size="30">01</text>
+      </g>
+    </g>
+  </g>
+</svg>

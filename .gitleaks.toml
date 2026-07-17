@@ -1,0 +1,10 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Ignore one fixed idempotency-key fixture that resembles a generic API key"
+condition = "AND"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = ['''idempotencyKey:\s*"test-edge-api-2026-07-16-2"''']
+paths = ['''test/integration/repository\.integration\.test\.ts''']
