@@ -17,6 +17,7 @@ describe("consoleLogger", () => {
 		expect(JSON.parse(String(output.mock.calls[0][0]))).toEqual({
 			level: "info",
 			event: "health_check_completed",
+			timestamp: expect.any(String),
 			status: "ok",
 			durationMs: 5,
 			d1Status: "ok",

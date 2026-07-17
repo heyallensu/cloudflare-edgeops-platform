@@ -76,9 +76,13 @@ function deploymentMatchesInput(deployment: Deployment, input: CreateDeploymentI
 		deployment.serviceId === input.serviceId &&
 		deployment.version === input.version &&
 		deployment.commitSha === input.commitSha &&
-		deployment.result === input.result &&
-		deployment.deployedAt === input.deployedAt
+		deployment.result === input.result
 	);
+}
+
+export interface DeploymentWriteResult {
+	deployment: Deployment;
+	created: boolean;
 }
 
 export class RepositoryConflictError extends Error {
@@ -129,7 +133,13 @@ export class OperationsRepository {
 	}
 
 	async createDeployment(input: CreateDeploymentInput): Promise<Deployment> {
-		await this.db
+		return (await this.createDeploymentWithOutcome(input)).deployment;
+	}
+
+	async createDeploymentWithOutcome(input: CreateDeploymentInput): Promise<DeploymentWriteResult> {
+		await this.assertServiceExists(input.serviceId);
+
+		const write = await this.db
 			.prepare(
 				"INSERT OR IGNORE INTO deployments (idempotency_key, service_id, version, commit_sha, result, deployed_at) VALUES (?, ?, ?, ?, ?, ?)",
 			)
@@ -159,10 +169,12 @@ export class OperationsRepository {
 			throw new RepositoryConflictError("Idempotency key is already associated with a different deployment");
 		}
 
-		return persisted;
+		return { deployment: persisted, created: write.meta.changes === 1 };
 	}
 
 	async createIncident(input: CreateIncidentInput): Promise<Incident> {
+		await this.assertServiceExists(input.serviceId);
+
 		const result = await this.db
 			.prepare("INSERT INTO incidents (service_id, title, status, started_at, resolved_at) VALUES (?, ?, 'open', ?, NULL)")
 			.bind(input.serviceId, input.title, input.startedAt)
@@ -177,7 +189,7 @@ export class OperationsRepository {
 	}
 
 	async resolveIncident(id: number, resolvedAt: string): Promise<Incident> {
-		await this.db
+		const write = await this.db
 			.prepare("UPDATE incidents SET status = 'resolved', resolved_at = ? WHERE id = ? AND status = 'open'")
 			.bind(resolvedAt, id)
 			.run();
@@ -186,7 +198,7 @@ export class OperationsRepository {
 		if (!incident) {
 			throw new RepositoryNotFoundError("Incident was not found");
 		}
-		if (incident.status !== "resolved" || incident.resolvedAt !== resolvedAt) {
+		if (write.meta.changes !== 1 || incident.status !== "resolved" || incident.resolvedAt !== resolvedAt) {
 			throw new RepositoryConflictError("Incident is not open");
 		}
 
@@ -200,5 +212,12 @@ export class OperationsRepository {
 			.first<IncidentRow>();
 
 		return row ? mapIncident(row) : null;
+	}
+
+	private async assertServiceExists(id: string): Promise<void> {
+		const service = await this.db.prepare("SELECT id FROM services WHERE id = ?").bind(id).first<{ id: string }>();
+		if (!service) {
+			throw new RepositoryNotFoundError("Service was not found");
+		}
 	}
 }

@@ -1,5 +1,14 @@
 export type LogFieldValue = string | number | boolean | null;
-export type LogFields = Record<string, LogFieldValue>;
+export interface LogFields {
+	status?: LogFieldValue;
+	durationMs?: LogFieldValue;
+	d1Status?: LogFieldValue;
+	d1DurationMs?: LogFieldValue;
+	requestId?: LogFieldValue;
+	route?: LogFieldValue;
+	result?: LogFieldValue;
+	recordType?: LogFieldValue;
+}
 
 export interface StructuredLogger {
 	info(event: string, fields: LogFields): void;
@@ -7,7 +16,7 @@ export interface StructuredLogger {
 }
 
 function write(level: "info" | "error", event: string, fields: LogFields): void {
-	const entry = JSON.stringify({ level, event, ...fields });
+	const entry = JSON.stringify({ timestamp: new Date().toISOString(), level, event, ...fields });
 	if (level === "error") {
 		console.error(entry);
 		return;
