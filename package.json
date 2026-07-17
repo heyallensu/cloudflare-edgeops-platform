@@ -11,6 +11,8 @@
     "lint": "eslint . --max-warnings=0",
     "test": "vitest run",
     "test:integration": "vitest run test/integration",
+    "test:e2e": "playwright test",
+    "test:e2e:protected": "playwright test --config playwright.protected.config.ts",
     "test:watch": "vitest",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.18.5",
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20.19.43",
     "@types/react": "^19.1.7",

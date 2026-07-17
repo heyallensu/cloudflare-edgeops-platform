@@ -41,8 +41,19 @@ function validateWriteRequest(request: Request): Response | null {
 	}
 
 	const origin = request.headers.get("origin");
-	if (origin && origin !== new URL(request.url).origin) {
-		return errorResponse(403, "forbidden_origin", "The request origin is not allowed");
+	if (origin) {
+		const requestUrl = new URL(request.url);
+		const forwardedHost = request.headers.get("x-forwarded-host")?.split(",")[0]?.trim();
+		const expectedHost = forwardedHost || request.headers.get("host") || requestUrl.host;
+		const expectedProtocol = request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim() || requestUrl.protocol.slice(0, -1);
+		try {
+			const originUrl = new URL(origin);
+			if (originUrl.host !== expectedHost || originUrl.protocol !== `${expectedProtocol}:`) {
+				return errorResponse(403, "forbidden_origin", "The request origin is not allowed");
+			}
+		} catch {
+			return errorResponse(403, "forbidden_origin", "The request origin is not allowed");
+		}
 	}
 
 	return null;
