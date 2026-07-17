@@ -1,11 +1,10 @@
 # Deploy and Rollback Runbook
 
-This runbook describes the intended v1 process. Commands must be verified and
-updated during implementation before they are treated as operational evidence.
+This runbook describes the live v1 delivery process.
 
 ## Ownership Model
 
-- Terraform creates and protects D1 and configures Access.
+- Terraform creates and protects D1.
 - Wrangler/OpenNext builds and deploys the Worker and assets.
 - Wrangler applies D1 migrations.
 - GitHub Actions orchestrates verification, migration, deployment, and smoke
@@ -16,39 +15,38 @@ updated during implementation before they are treated as operational evidence.
 ## Initial Bootstrap
 
 1. Confirm the repository is private and local acceptance is complete.
-2. Export private Terraform inputs without writing them to tracked files:
+2. Export the private Terraform input without writing it to tracked files:
 
    ```bash
    export TF_VAR_cloudflare_account_id='...'
-   export TF_VAR_worker_hostname='...'
-   export TF_VAR_access_allowed_email='...'
    ```
 
-3. Initialize and review the D1-only plan:
+3. Initialize and review the D1 plan:
 
    ```bash
    terraform -chdir=infra/terraform init
-   terraform -chdir=infra/terraform plan -var='enable_access=false'
+   terraform -chdir=infra/terraform plan
    ```
 
-4. Confirm the plan creates exactly one D1 database and no Access resource.
+4. Confirm the plan creates exactly one D1 database.
 5. After explicit approval, apply and capture only the non-secret D1 UUID:
 
    ```bash
-   terraform -chdir=infra/terraform apply -var='enable_access=false'
+   terraform -chdir=infra/terraform apply
    terraform -chdir=infra/terraform output -raw d1_database_id
    ```
 
 6. Put the D1 UUID into `wrangler.jsonc`; do not add account ID or private
    values.
 7. Apply remote migrations and deploy the public application.
-8. Set `enable_access=true`, review the full plan, and apply only after approval.
-9. Configure Access audience and team domain as Worker secrets, then redeploy.
-10. Verify public and protected paths from an anonymous browser.
+8. Add `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`, and
+   `PRODUCTION_URL` to GitHub's encrypted repository settings.
+9. Verify the public dashboard and health endpoint from an anonymous browser.
 
 ## Normal Deployment
 
-The deployment workflow performs these steps in order:
+The CI workflow runs first for every push to `main`. Only a successful CI run
+triggers the deployment workflow, which performs these steps in order:
 
 1. Check out an immutable commit.
 2. Install with `npm ci`.
@@ -68,10 +66,10 @@ multiple releases and are out of scope for v1.
 ## Failed Deployment Triage
 
 1. Do not rerun blindly. Identify whether failure occurred in verification,
-   migration, deployment, health, root smoke, or Access verification.
+   migration, deployment, health, or root smoke.
 2. Inspect GitHub Actions output and redacted Wrangler logs.
-3. Check Workers Logs by request ID and event name. Do not paste JWTs, email
-   addresses, bindings, or account/resource identifiers into issues.
+3. Check Workers Logs by request ID and event name. Do not paste credentials,
+   bindings, or account/resource identifiers into issues.
 4. Query `/api/health` directly and record only status, timestamps, duration,
    and generic check result.
 5. Determine whether the previous Worker version is still serving traffic.
@@ -86,8 +84,7 @@ Preferred order:
    known-good version, or redeploy the last known-good commit through the
    controlled workflow.
 2. Poll `/api/health` and `/` with the same production smoke checks.
-3. Verify `/admin` is still protected and the previous application can read the
-   current schema.
+3. Verify the previous application can read the current schema.
 4. Record the failed version, restored version, timestamps, symptom, and next
    action using synthetic/non-sensitive identifiers.
 
@@ -112,20 +109,17 @@ If a migration introduced a schema/data defect:
 
 1. Confirm all three scheduled attempts failed rather than a single transient
    timeout.
-2. Check whether the failure is D1 degradation, Worker execution error, Access
-   misconfiguration, or general route availability.
-3. Confirm `/api/health` is not covered by the `/admin*` Access application.
+2. Check whether the failure is D1 degradation, Worker execution error, or
+   general route availability.
+3. Confirm both public production routes independently.
 4. Inspect recent deployments and Cloudflare status information.
 5. Roll back only when evidence links the failure to the current application
    version; otherwise retain the version and investigate the dependency.
 
-## Access Failure
+## Inactive Admin Reference
 
-- If `/admin` is public, treat it as a security incident: disable admin write
-  routes in the Worker, correct Access scope/policy, and verify anonymously.
-- If public routes redirect to Access, correct the application path so only
-  `/admin*` is protected.
-- If valid users cannot enter, verify policy, identity method, Access audience,
-  team domain, and Worker secret values without printing those values.
-- Application-side JWT validation must fail closed while configuration is
-  missing or invalid.
+The live v1 product does not provision Cloudflare Access or advertise an admin
+console. The retained JWT guard must continue to fail closed when configuration
+is missing; do not replace it with a public bypass. Any future activation is a
+new security design decision and requires its own threat review and acceptance
+tests.

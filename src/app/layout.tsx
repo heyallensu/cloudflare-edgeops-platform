@@ -1,22 +1,9 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
-
-const plexSans = IBM_Plex_Sans({
-	variable: "--font-plex-sans",
-	subsets: ["latin"],
-	weight: ["400", "500", "600"],
-});
-
-const plexMono = IBM_Plex_Mono({
-	variable: "--font-plex-mono",
-	subsets: ["latin"],
-	weight: ["400", "500"],
-});
 
 export const metadata: Metadata = {
 	title: "EdgeOps Dashboard",
-	description: "A clean-room Cloudflare platform operations reference built with Workers, D1, OpenNext, and Access.",
+	description: "A clean-room Cloudflare platform operations reference built with Workers, D1, OpenNext, and GitHub Actions.",
 };
 
 export default function RootLayout({
@@ -29,7 +16,7 @@ export default function RootLayout({
 			<head>
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
 			</head>
-			<body className={`${plexSans.variable} ${plexMono.variable}`}>{children}</body>
+			<body>{children}</body>
 		</html>
 	);
 }

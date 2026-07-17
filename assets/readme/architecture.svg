@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
   <title id="title">EdgeOps request and deployment architecture</title>
-  <desc id="desc">Public requests reach the Worker directly while administrative requests cross Cloudflare Access and application JWT verification before using protected APIs and D1. GitHub Actions is planned as the deployment path.</desc>
+  <desc id="desc">Public requests reach the Worker and D1 directly while GitHub Actions verifies, migrates, deploys, and smoke-tests each main-branch release.</desc>
 
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -16,7 +16,7 @@
 
   <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
     <text x="42" y="48" fill="#73e6d1" font-size="13" letter-spacing="2">SYSTEM MAP / TRUST BOUNDARIES</text>
-    <text x="1158" y="48" fill="#8e9eae" font-size="12" text-anchor="end">PUBLIC READ · PROTECTED WRITE</text>
+    <text x="1158" y="48" fill="#8e9eae" font-size="12" text-anchor="end">PUBLIC READ · AUTOMATED DELIVERY</text>
   </g>
   <path d="M42 72H1158" stroke="#20303b"/>
 
@@ -30,16 +30,16 @@
 
     <g transform="translate(42 236)">
       <rect width="170" height="88" fill="#0b1720" stroke="#344754"/>
-      <text x="20" y="33" fill="#e8edf2" font-size="17" font-weight="600">Admin browser</text>
-      <text x="20" y="60" fill="#8e9eae" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">/admin*</text>
+      <text x="20" y="33" fill="#e8edf2" font-size="17" font-weight="600">GitHub main</text>
+      <text x="20" y="60" fill="#8e9eae" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">push · dispatch</text>
     </g>
     <path d="M212 280H278" stroke="#ffc15c" stroke-width="2" marker-end="url(#arrow-amber)"/>
 
     <g transform="translate(298 226)">
       <rect width="178" height="108" fill="#0b1720" stroke="#ffc15c"/>
-      <text x="89" y="35" fill="#ffc15c" font-size="16" font-weight="600" text-anchor="middle">Cloudflare Access</text>
-      <text x="89" y="62" fill="#8e9eae" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">OTP / allow policy</text>
-      <text x="89" y="84" fill="#8e9eae" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">JWT assertion</text>
+      <text x="89" y="35" fill="#ffc15c" font-size="16" font-weight="600" text-anchor="middle">GitHub Actions</text>
+      <text x="89" y="62" fill="#8e9eae" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">VERIFY / BUILD</text>
+      <text x="89" y="84" fill="#8e9eae" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" text-anchor="middle">MIGRATE / DEPLOY</text>
     </g>
     <path d="M476 280H538" stroke="#ffc15c" stroke-width="2" marker-end="url(#arrow-amber)"/>
 
@@ -50,8 +50,8 @@
       <path d="M22 86H228" stroke="#344754"/>
       <text x="28" y="118" fill="#73e6d1" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">PUBLIC</text>
       <text x="28" y="141" fill="#b3c0cb" font-size="13">Dashboard + health</text>
-      <text x="28" y="179" fill="#ffc15c" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">PROTECTED</text>
-      <text x="28" y="202" fill="#b3c0cb" font-size="13">JWT guard + Zod APIs</text>
+      <text x="28" y="179" fill="#ffc15c" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">DELIVERY</text>
+      <text x="28" y="202" fill="#b3c0cb" font-size="13">OpenNext release bundle</text>
     </g>
     <path d="M808 220H880" stroke="#73e6d1" stroke-width="2" marker-end="url(#arrow)"/>
 
@@ -65,8 +65,8 @@
   </g>
 
   <g transform="translate(42 382)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" letter-spacing="1">
-    <text x="0" y="0" fill="#8e9eae">01  ACCESS IS SCOPED TO /ADMIN*</text>
-    <text x="340" y="0" fill="#8e9eae">02  JWT IS VERIFIED AGAIN IN-APP</text>
-    <text x="710" y="0" fill="#8e9eae">03  IDENTITY DATA IS NOT PERSISTED</text>
+    <text x="0" y="0" fill="#8e9eae">01  MAIN IS THE RELEASE BRANCH</text>
+    <text x="340" y="0" fill="#8e9eae">02  D1 MIGRATIONS ARE FORWARD-ONLY</text>
+    <text x="710" y="0" fill="#8e9eae">03  POST-DEPLOY SMOKE IS REQUIRED</text>
   </g>
 </svg>

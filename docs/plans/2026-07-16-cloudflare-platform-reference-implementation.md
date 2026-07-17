@@ -1,5 +1,11 @@
 # Cloudflare Platform Reference Implementation Plan
 
+> **Scope decision — 2026-07-17:** The live portfolio deployment is public and
+> read-only. Cloudflare Access provisioning was removed from the delivery scope.
+> The fail-closed Access/JWT implementation remains in the repository as tested
+> reference code, but `/admin` and `/api/admin/*` are not advertised as live
+> features.
+
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
 **Goal:** Build and publish EdgeOps Dashboard as a clean-room Cloudflare platform engineering reference with a public operational dashboard, an Access-protected admin path, D1, Terraform, CI/CD, monitoring, and runbooks.

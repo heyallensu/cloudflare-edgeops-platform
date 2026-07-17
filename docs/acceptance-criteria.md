@@ -36,14 +36,13 @@ addresses, or absolute personal paths.
 | Incident state allows only open-to-resolved transition. | Not run | |
 | Invalid admin requests produce documented 4xx responses with no partial writes. | Not run | |
 
-## Access and Health
+## Public Surface and Health
 
 | Criterion | Status | Evidence |
 | --- | --- | --- |
 | Anonymous `/` and `/api/health` remain public. | Not run | |
-| Anonymous `/admin*` is intercepted by Access. | Not run | |
-| Application rejects missing, expired, wrong-audience, wrong-issuer, and invalid-signature JWTs. | Not run | |
-| Valid Access identity can use admin actions without persisting an email. | Not run | |
+| Inactive admin reference routes fail closed without production Access configuration. | Not run | |
+| Retained JWT tests reject missing, expired, wrong-audience, wrong-issuer, and invalid-signature assertions. | Not run | |
 | Healthy D1 returns HTTP 200 and the stable health contract. | Not run | |
 | Failed D1 returns HTTP 503 without SQL, binding, ID, or stack-trace disclosure. | Not run | |
 
@@ -52,8 +51,8 @@ addresses, or absolute personal paths.
 | Criterion | Status | Evidence |
 | --- | --- | --- |
 | Terraform format, init without backend, and validate pass. | Not run | |
-| Initial plan with Access disabled creates only D1. | Not run | |
-| D1 has `prevent_destroy`; full plan adds only the expected Access resources. | Not run | |
+| Terraform plan contains only the expected D1 resource. | Not run | |
+| D1 has `prevent_destroy`; Terraform contains no Access resources. | Not run | |
 | PR CI runs secret scan, app tests/build, Playwright, and Terraform checks. | Not run | |
 | Main deployment applies migrations, deploys, and passes health/root smoke. | Not run | |
 | Scheduled health workflow succeeds when manually dispatched and has a 30-minute cron. | Not run | |
@@ -65,5 +64,5 @@ addresses, or absolute personal paths.
 | --- | --- | --- |
 | README gives a truthful 30-second summary, architecture, verified commands, live URL, and limitations. | Not run | |
 | MIT license, CI badge, synthetic screenshots, and architecture diagram are present. | Not run | |
-| Anonymous browser review passes for repository, dashboard, health, and protected admin. | Not run | |
+| Anonymous browser review passes for repository, dashboard, and health. | Not run | |
 | Final publication checklist is complete before repository visibility changes. | Not run | |

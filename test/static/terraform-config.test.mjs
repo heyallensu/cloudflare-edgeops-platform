@@ -16,16 +16,10 @@ describe("Cloudflare Terraform safety controls", () => {
 		assert.match(main, /prevent_destroy\s*=\s*true/);
 	});
 
-	it("keeps Access disabled during the D1 bootstrap", async () => {
-		const variables = await readTerraform("variables.tf");
-		assert.match(variables, /variable\s+"enable_access"[\s\S]*?default\s*=\s*false/);
-	});
-
-	it("protects both the admin UI and its API without gating public health", async () => {
+	it("limits Terraform ownership to the D1 resource", async () => {
 		const main = await readTerraform("main.tf");
-		assert.ok(main.includes("${var.worker_hostname}/admin*"));
-		assert.ok(main.includes("${var.worker_hostname}/api/admin*"));
-		assert.ok(!main.includes("${var.worker_hostname}/api/health"));
+		assert.doesNotMatch(main, /cloudflare_zero_trust_access_/);
+		assert.doesNotMatch(main, /cloudflare_workers_script/);
 	});
 
 	it("contains no literal account ID, token, or allowed identity", async () => {

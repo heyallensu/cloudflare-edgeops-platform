@@ -55,9 +55,9 @@ reviewed placeholders/documentation only; Gitleaks exits 0.
 - [ ] GitHub secrets are not duplicated as repository variables or plaintext.
 - [ ] Actions permissions are minimal and logs redact authorization values.
 - [ ] Terraform state and tfvars exist only outside Git.
-- [ ] Access allow identity exists only in private Terraform input/state and the
-  Cloudflare control plane.
-- [ ] Public routes are `/` and `/api/health`; `/admin*` is protected.
+- [ ] Terraform owns only D1; no Access identity or configuration is required.
+- [ ] The live contract advertises only `/` and `/api/health`; inactive admin
+  reference routes fail closed without configuration.
 - [ ] Production health workflow succeeds when manually dispatched.
 
 ## Recruiter Review
@@ -68,6 +68,6 @@ reviewed placeholders/documentation only; Gitleaks exits 0.
 - [ ] CI badge is green and links to the correct workflow.
 - [ ] Live URL loads without login and visibly labels data as synthetic.
 - [ ] Health endpoint returns no resource identifiers.
-- [ ] Admin URL proves Access behavior without exposing the allowed identity.
+- [ ] README does not claim that the inactive admin reference is a live feature.
 - [ ] Topics accurately match implemented technology.
 - [ ] Visibility changes only after explicit owner confirmation.

@@ -1,4 +1,5 @@
-# Copy this file to .dev.vars for a local Workers preview. Never commit the copy.
+# Optional local reference settings for the inactive Access guard. Copy this
+# file to .dev.vars for a local Workers preview. Never commit the copy.
 ACCESS_TEAM_DOMAIN=https://your-team.cloudflareaccess.com
 ACCESS_AUD=replace-with-access-audience
 
