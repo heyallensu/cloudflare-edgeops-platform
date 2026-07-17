@@ -1,2 +1,6 @@
-# Local-only values belong in .dev.vars, which is ignored by Git.
-# No secrets are required for the initial local foundation.
+# Copy this file to .dev.vars for a local Workers preview. Never commit the copy.
+ACCESS_TEAM_DOMAIN=https://your-team.cloudflareaccess.com
+ACCESS_AUD=replace-with-access-audience
+
+# Set to true only for deliberate local development. It cannot bypass production.
+LOCAL_ACCESS_BYPASS=false
