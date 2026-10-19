@@ -24,7 +24,7 @@
     "verify": "npm run cf-typegen && npm run typecheck && npm run lint && npm test && npm run test:static && npm run build:worker"
   },
   "dependencies": {
-    "@opennextjs/cloudflare": "^1.19.9",
+    "@opennextjs/cloudflare": "^1.20.2",
     "jose": "^6.2.3",
     "next": "16.2.6",
     "react": "^19.1.7",
